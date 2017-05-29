@@ -1,14 +1,11 @@
-#Speed Reader#
+# Chinese-Speed-Reader
+This reader accepts Chinese sentences and uses https://www.mdbg.net/chinese/dictionary to split them into words and find their meaning. 
+Displaying each word with its meaning one by one when you play it.
+You can set the play speed as well as pause and rewind.
 
-[**Live Demo**](http://htmlpreview.github.com/?https://github.com/ofalvai/speed-reader/blob/master/speedreader.html)
+It uses Javascript to render and PHP to fetch converted words.
+Feel free to contribute and you can reuse it.
 
-Paste the text you want to speedread, and click the **Read!** button. Additionally, you can set the reading speed, but the default 200 words per minute is optimal for an untrained reader.
+[**Live Demo**](http://apps.tobilukan.com/chinese-speed-reader)
 
-You can pause the reading by pressing **P** or **Space**.
-
-I'll add more features in the future, such as:
-
-- More options
-- A bookmarklet
-- Responsive layout for mobiles, tablets, etc.
-- Night mode
+Enjoy.
