@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chinese Speed reader</title>
+        <link href='http://fonts.googleapis.com/css?family=Crete+Round:400,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="app.css" />
+        <style>
+            @font-face { font-family: HanSerifSC; src: url('SourceHanSerifSC-Medium.otf'); } 
+
+        </style>
+    </head>
+    <body>
+        <h1>Chinese Speed reader</h1>
+        <div id="container">
+            <textarea id="text-to-read">&#21407;&#26631;&#39064;&#65306;&#20849;&#20139;&#21333;&#36710;&#34987;&#31105;&#27490;&#36827;&#20837;&#39318;&#37117;&#22320;&#21306;&#39547;&#20891;&#33829;&#38498;  &#12288;&#12288;&#26032;&#21326;&#31038;&#21271;&#20140;5&#26376;24&#26085;&#30005;&#65288;&#40654;&#20113;&#12289;&#21556;&#26093;&#65289;&#35760;&#32773;&#20174;&#20013;&#22830;&#20891;&#22996;&#35757;&#32451;&#31649;&#29702;&#37096;&#33719;&#24713;&#65292;&#20174;5&#26376;25&#26085;&#36215;&#65292;&#20849;&#20139;&#21333;&#36710;&#34987;&#31105;&#27490;&#36827;&#20837;&#21271;&#20140;&#39547;&#20891;</textarea>
+            <div id="reading-screen">
+                <div id="word"></div>
+                <input id="text-progress" type="range" />
+            </div>
+            <div id="prep" style="display:none"></div>
+            <div id="options">
+                <div class="row">
+                    <span id="wpm">Words per minute (WPM):</span>
+                    <input id="reading-speed" type="number" value="200" step="25" min="0" max="1000" />
+                    <span id="text-info"></span>
+                </div>
+                <div class="row">
+                    <label for="merge" title="Words shorter than 4 characters are displayed together with the previous word">Merge short words:</label>
+                    <input id="merge" type="checkbox" checked="true" title="Words shorter than 4 characters are displayed together with the previous word"/>
+                </div>
+                <div class="row">
+                    <label for="night-mode">Night mode:</label>
+                    <input type="checkbox" id="night-mode" />
+                </div>
+                
+            </div>
+            <button class="btn" id="start">Read!</button>
+            <button class="btn" id="new">New text</button>
+            <span id="status"></span>
+        </div>
+        <div id="other">
+            <div id="desc">
+                <p>Paste the text you want to speedread, and click the <em>Read!</em> button. Additionally, you can set the reading speed, but the default 200 words per minute is optimal for an untrained reader.
+                </p>
+                <p>Keyboard shortcuts:</p>
+                <ul>
+                    <li><em>P</em> or <em>Space</em>: Pause/resume</li>
+                    <li><em>Left</em> arrow: Decrease speed by 25</li>
+                    <li><em>Right</em> arrow: Increase speed by 25</li>
+                    <li><em>B</em>: Go back by 10 words</li>
+                </ul>
+            </div>
+        </div>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="jquery-1.8.3.min.js"><\/script>')</script>
+        <script>
+            $(document).ready(function(){
+
+                // Convert text immediately page loads
+                convertText($('#text-to-read').val());
+                
+                // Convert while typing
+                $('#text-to-read').on('keyup', function(){
+                    convertText($('#text-to-read').val());
+                });
+
+                function convertText(dd)
+                {
+                    $('#prep').html("");
+                    $('#status').html("");
+                    if(dd.trim() == "")
+                    {
+                        $('#start').prop('disabled',true);
+                        $('#start').css({'background':'red'});
+                        prepare($('#prep').html());
+                        return false;
+                    }
+                    var in_data = {dd:dd}
+                    var dajax = $.ajax({
+                                    url: 'getter.php',
+                                    type: 'POST',
+                                    data: in_data,
+                                    async: true,
+                                    success: function(data){
+                                        $('#prep').html(data);
+                                        $('#start').prop('disabled',false);
+                                        $('#start').css({'background':'green'});
+                                        prepare($('#prep').html());
+                                        $('#status').html("");
+
+                                    },
+                                    beforeSend: function(){
+                                        $('#start').prop('disabled',true);
+                                        $('#start').css({'background':'red'});
+                                        $('#status').html("Please wait..... ");
+                                    }
+                                })
+                    .fail(function(){
+                        $('#status').html("Please check your internet.");
+                    })
+                }
+            })
+        </script>
+        <script src="app.js"></script>
+    </body>
+</html>
