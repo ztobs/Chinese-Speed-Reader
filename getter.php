@@ -1,6 +1,9 @@
 <?php
 
 require_once 'lib/simple_html_dom.php';
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST');
+header("Access-Control-Allow-Headers: X-Requested-With");
 
 //$input = $argv[1];
 $input = $_POST['dd'];
