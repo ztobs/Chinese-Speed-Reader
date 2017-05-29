@@ -1,6 +1,7 @@
 <?php
 
 require_once 'lib/simple_html_dom.php';
+header('Content-Type: text/html; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST');
 header("Access-Control-Allow-Headers: X-Requested-With");
@@ -39,6 +40,7 @@ function writeDom2File($dom, $output_filename)
 
 foreach($html->find('.resultswrap tr.row') as $dman)
 {
-	echo $dman->find('td.head',0)->plaintext."";
+    echo $dman->find('div.hanzi',0)->plaintext."<hr>";
+	echo $dman->find('div.pinyin',0)->plaintext."<hr>";
 	echo $dman->find('td.details',0)->plaintext."<br><br>";
 }

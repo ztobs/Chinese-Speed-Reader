@@ -9,12 +9,18 @@ var readInterval = null,
         merge: true
     };
 
-
+function cleanText(text)
+{
+    text.replace("&lt;", "tobi");
+    text.replace("&gt;", "lukan");
+    return text;
+}
 
 
 function prepare(text) {
     
     
+
     preparedChunks = [];
 
     // Splitting text into an array of words, and some cleanup
@@ -85,7 +91,11 @@ function flashWords(array) {
     } else {
         readIndex++;
     }
-    $('#word').html(chunk.text);
+    var fText = chunk.text;
+    
+    fText = fText.replace(/&lt;/g, "<");
+    fText = fText.replace(/&gt;/g, ">");
+    $('#word').html(fText);
     $('#text-progress').attr({
         'max': preparedChunks.length,
         'value': readIndex,

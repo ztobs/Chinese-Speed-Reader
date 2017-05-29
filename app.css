@@ -62,7 +62,9 @@ em {
     text-align: center;
     font-size: 30px;
     word-break: break-all;
-    position: absolute;
+    /*position: absolute;*/
+    margin-top: 10px;
+    margin-bottom: 10px;
     top: 0;
     bottom: 0;
     left: 0;
